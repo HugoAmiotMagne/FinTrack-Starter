@@ -1,5 +1,7 @@
 # FinTrack
 
+[![CI](https://github.com/hugoamiot/fintrack-starter/actions/workflows/ci.yml/badge.svg)](https://github.com/hugoamiot/fintrack-starter/actions/workflows/ci.yml)
+
 Application de gestion de budget personnel.
 
 ## Stack
@@ -26,8 +28,8 @@ L'appli est dispo sur http://localhost:5173.
 ## TODO
 
 - [ ] Ajouter des tests
-- [ ] Mettre en place un linter
-- [ ] CI
+- [X] Mettre en place un linter
+- [x] CI
 - [ ] Export CSV
 - [ ] Refacto du module legacy
 
