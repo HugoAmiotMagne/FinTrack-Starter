@@ -32,6 +32,7 @@ export function multiply(a, b) {
  * BUG LATENT : ne gère pas la division par zéro (retourne Infinity ou NaN).
  */
 export function divide(a, b) {
+  if (b === 0) throw new Error('Division par zéro impossible');
   return a / b;
 }
 
@@ -39,6 +40,7 @@ export function divide(a, b) {
  * Modulo de a par b.
  */
 export function modulo(a, b) {
+  if (b === 0) throw new Error('Modulo par zéro impossible');
   return a % b;
 }
 
@@ -54,7 +56,7 @@ export function modulo(a, b) {
  *              comme un coefficient décimal au lieu d'un pourcentage.
  */
 export function simpleInterest(principal, rate, years) {
-  return principal * rate * years;
+  return principal * (rate / 100) * years;
 }
 
 /**
@@ -74,6 +76,7 @@ export function compoundInterest(principal, rate, years) {
  * BUG LATENT : ne valide pas que le rate est positif.
  */
 export function convertCurrency(amount, rate) {
+  if (rate <= 0) throw new Error('Le taux de change doit être positif');
   return amount * rate;
 }
 
@@ -84,6 +87,7 @@ export function convertCurrency(amount, rate) {
  * BUG LATENT : ne gère pas le cas où le tableau est vide ou null.
  */
 export function computeBalance(transactions) {
+  if (transactions == null) throw new Error('transactions ne peut pas être null');
   let balance = 0;
   for (let i = 0; i < transactions.length; i++) {
     const tx = transactions[i];
@@ -103,4 +107,18 @@ export function formatAmount(amount, currency = 'EUR') {
   const symbols = { EUR: '€', USD: '$', GBP: '£' };
   const symbol = symbols[currency] || currency;
   return amount.toFixed(2) + ' ' + symbol;
+}
+
+/**
+ * Calcule l'intérêt simple cumulé depuis un timestamp de départ jusqu'à aujourd'hui.
+ *   principal      : capital initial
+ *   rate           : taux annuel en pourcentage
+ *   startTimestamp : timestamp de départ en millisecondes (ex: Date.now())
+ *
+ * Dépend de Date.now() pour obtenir la date courante.
+ */
+export function accruedInterest(principal, rate, startTimestamp) {
+  const msPerYear = 365.25 * 24 * 60 * 60 * 1000;
+  const years = (Date.now() - startTimestamp) / msPerYear;
+  return simpleInterest(principal, rate, years);
 }
