@@ -2,7 +2,7 @@ node_modules
 dist
 .env
 .DS_Store
-coverage
+coverage/
 playwright-report
 test-results
 .vscode

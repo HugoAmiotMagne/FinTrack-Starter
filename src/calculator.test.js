@@ -96,6 +96,10 @@ describe('computeBalance', () => {
   it('lève une erreur si transactions est null', () => {
     expect(() => computeBalance(null)).toThrow();
   });
+  // Couvre la branche "boucle for avec 0 itérations" (corps jamais exécuté)
+  it('retourne 0 pour un tableau vide', () => {
+    expect(computeBalance([])).toBe(0);
+  });
 });
 
 describe('formatAmount', () => {
