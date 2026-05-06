@@ -19,6 +19,7 @@ function isSameMonth(dateStr, ref) {
 }
 
 export function exportCSV(transactions, now = new Date()) {
+  if (!Array.isArray(transactions)) throw new TypeError('exportCSV: transactions must be an array');
   const lines = transactions.filter((tx) => isSameMonth(tx.date, now)).map(toLine);
   return [HEADER, ...lines].join('\n');
 }
