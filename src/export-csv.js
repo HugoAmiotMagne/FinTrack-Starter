@@ -1,3 +1,5 @@
+const HEADER = 'date,label,amount,category';
+
 export function exportCSV(_transactions) {
-  return 'date,label,amount,category';
+  return HEADER;
 }
