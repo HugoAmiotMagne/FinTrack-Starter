@@ -4,14 +4,12 @@ function toLine(tx) {
   return `${tx.date},${tx.label},${tx.amount},${tx.category}`;
 }
 
+function isSameMonth(dateStr, ref) {
+  const d = new Date(dateStr);
+  return d.getFullYear() === ref.getFullYear() && d.getMonth() === ref.getMonth();
+}
+
 export function exportCSV(transactions, now = new Date()) {
-  const currentMonth = now.getMonth();
-  const currentYear = now.getFullYear();
-
-  const filteredTransactions = transactions.filter((tx) => {
-    const txDate = new Date(tx.date);
-    return txDate.getMonth() === currentMonth && txDate.getFullYear() === currentYear;
-  });
-
-  return [HEADER, ...filteredTransactions.map(toLine)].join('\n');
+  const lines = transactions.filter((tx) => isSameMonth(tx.date, now)).map(toLine);
+  return [HEADER, ...lines].join('\n');
 }
