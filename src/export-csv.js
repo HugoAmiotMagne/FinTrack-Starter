@@ -1,4 +1,5 @@
-const HEADER = 'date,label,amount,category';
+const FIELDS = ['date', 'label', 'amount', 'category'];
+const HEADER = FIELDS.join(',');
 
 function escapeField(value) {
   const str = String(value);
@@ -9,7 +10,7 @@ function escapeField(value) {
 }
 
 function toLine(tx) {
-  return [tx.date, tx.label, tx.amount, tx.category].map(escapeField).join(',');
+  return FIELDS.map((f) => escapeField(tx[f])).join(',');
 }
 
 function isSameMonth(dateStr, ref) {
