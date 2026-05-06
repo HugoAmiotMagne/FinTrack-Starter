@@ -1,6 +1,9 @@
 const HEADER = 'date,label,amount,category';
 
+function toLine(tx) {
+  return `${tx.date},${tx.label},${tx.amount},${tx.category}`;
+}
+
 export function exportCSV(transactions) {
-  const lines = transactions.map((tx) => `${tx.date},${tx.label},${tx.amount},${tx.category}`);
-  return [HEADER, ...lines].join('\n');
+  return [HEADER, ...transactions.map(toLine)].join('\n');
 }
