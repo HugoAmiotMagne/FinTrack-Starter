@@ -3,7 +3,7 @@ const HEADER = FIELDS.join(',');
 
 function escapeField(value) {
   const str = String(value);
-  if (str.includes(',') || str.includes('"') || str.includes('\n')) {
+  if (/[,"\n]/.test(str)) {
     return '"' + str.replace(/"/g, '""') + '"';
   }
   return str;
