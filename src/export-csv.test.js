@@ -8,8 +8,11 @@ describe('exportCSV', () => {
 
   // 2) Ligne CSV pour une transaction
   it('convertit une transaction en ligne CSV', () => {
+    const now = new Date('2024-01-15');
     const txs = [{ date: '2024-01-15', label: 'Courses', amount: 42.5, category: 'Alimentation' }];
-    expect(exportCSV(txs)).toBe('date,label,amount,category\n2024-01-15,Courses,42.5,Alimentation');
+    expect(exportCSV(txs, now)).toBe(
+      'date,label,amount,category\n2024-01-15,Courses,42.5,Alimentation',
+    );
   });
 
   // 3) Filtrage par mois en cours
@@ -38,5 +41,10 @@ describe('exportCSV', () => {
     expect(exportCSV(txs, now)).toBe(
       'date,label,amount,category\n2024-01-10,"Achat ""premium""",15,Shopping',
     );
+  });
+
+  // 5) Validation d'entrée
+  it('lève une erreur explicite si transactions est null', () => {
+    expect(() => exportCSV(null)).toThrow('exportCSV: transactions must be an array');
   });
 });
