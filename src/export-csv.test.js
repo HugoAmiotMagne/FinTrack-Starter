@@ -1,13 +1,11 @@
 import { exportCSV } from './export-csv.js';
 
 describe('exportCSV', () => {
-  // 1) Ligne d'en-tête CSV
-  it("retourne une ligne d'en-tête CSV", () => {
+  it('given an empty list, when exporting, then returns only the header', () => {
     expect(exportCSV([])).toBe('date,label,amount,category');
   });
 
-  // 2) Ligne CSV pour une transaction
-  it('convertit une transaction en ligne CSV', () => {
+  it('given a transaction in current month, when exporting, then returns a CSV line', () => {
     const now = new Date('2024-01-15');
     const txs = [{ date: '2024-01-15', label: 'Courses', amount: 42.5, category: 'Alimentation' }];
     expect(exportCSV(txs, now)).toBe(
@@ -15,8 +13,7 @@ describe('exportCSV', () => {
     );
   });
 
-  // 3) Filtrage par mois en cours
-  it('exclut les transactions hors du mois en cours', () => {
+  it('given transactions from two months, when exporting in january, then excludes december transactions', () => {
     const now = new Date('2024-01-15');
     const txs = [
       { date: '2024-01-10', label: 'Ce mois', amount: 10, category: 'A' },
@@ -25,15 +22,15 @@ describe('exportCSV', () => {
     expect(exportCSV(txs, now)).toBe('date,label,amount,category\n2024-01-10,Ce mois,10,A');
   });
 
-  // 4) Échappement RFC 4180
-  it('échappe les virgules selon RFC 4180', () => {
+  it('given a label with a comma, when exporting, then wraps the field in double quotes', () => {
     const now = new Date('2024-01-15');
     const txs = [{ date: '2024-01-10', label: 'Café, croissant', amount: 5, category: 'Food' }];
     expect(exportCSV(txs, now)).toBe(
       'date,label,amount,category\n2024-01-10,"Café, croissant",5,Food',
     );
   });
-  it('échappe les guillemets selon RFC 4180', () => {
+
+  it('given a label with double quotes, when exporting, then doubles the quotes per RFC 4180', () => {
     const now = new Date('2024-01-15');
     const txs = [
       { date: '2024-01-10', label: 'Achat "premium"', amount: 15, category: 'Shopping' },
@@ -43,8 +40,7 @@ describe('exportCSV', () => {
     );
   });
 
-  // 5) Validation d'entrée
-  it('lève une erreur explicite si transactions est null', () => {
+  it('given null instead of an array, when exporting, then throws an explicit error', () => {
     expect(() => exportCSV(null)).toThrow('exportCSV: transactions must be an array');
   });
 });

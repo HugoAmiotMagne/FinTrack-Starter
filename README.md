@@ -30,7 +30,7 @@ L'appli est dispo sur http://localhost:5173.
 - [ ] Ajouter des tests
 - [X] Mettre en place un linter
 - [x] CI
-- [ ] Export CSV
+- [X] Export CSV
 - [ ] Refacto du module legacy
 
 ---
