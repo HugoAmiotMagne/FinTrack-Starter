@@ -18,10 +18,12 @@ var RATES = {
   'EUR-GBP': 0.85,
 };
 
+var DEFAULT_RATE = 1;
+
 function convertAmount(tx, targetCurrency) {
   if (!tx.currency || tx.currency === targetCurrency) return tx.amount;
   var key = tx.currency + '-' + targetCurrency;
-  var rate = RATES[key] !== undefined ? RATES[key] : 1;
+  var rate = RATES[key] !== undefined ? RATES[key] : DEFAULT_RATE;
   return tx.amount * rate;
 }
 
