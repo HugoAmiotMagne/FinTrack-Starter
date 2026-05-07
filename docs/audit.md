@@ -100,3 +100,35 @@ Plusieurs commentaires excusent le code plutôt que de l'expliquer : `// un peu 
 **[var en bloc ES5] — lignes 26–42**  
 Toutes les variables sont déclarées en bloc en tête de fonction avec `var`, indépendamment de là où elles sont vraiment utilisées. `var` étant function-scoped, un `var d = new Date(tx.date)` dans le `for` est en réalité hoisté — comportement contre-intuitif.  
 → Remplacer par `const` / `let` déclarés au plus près de leur utilisation.
+
+---
+
+## Refactoring effectué
+
+### Zone 1 — Conversion de devise
+
+Trois étapes appliquées de façon incrémentale, un commit par étape.
+
+**1. Replace Magic Number with Named Constant**
+Les taux de change `0.92`, `1.08`, `1.17`, `0.85` éparpillés dans la cascade `if/else` ont été regroupés dans un objet `RATES` déclaré en tête de fichier. Le taux de fallback `1` a également été nommé `DEFAULT_RATE`. Résultat : modifier un taux se fait à un seul endroit, sans fouiller la fonction.
+
+**2. Extract Function**
+Le bloc de conversion (15 lignes mélangées dans la boucle principale) a été extrait dans `convertAmount(tx, targetCurrency)`. La boucle principale se réduit à `converted = convertAmount(tx, opts.currency)`. La fonction est désormais testable indépendamment et sa responsabilité est claire.
+
+**3. Decompose Conditional**
+La cascade `if / else if / else if / else if / else` est remplacée par une lookup dans `RATES` : `var rate = RATES[key] !== undefined ? RATES[key] : DEFAULT_RATE`. Supprimer ou ajouter une paire de devises ne touche plus qu'à l'objet `RATES`.
+
+---
+
+### Zone 2 — Catégorisation par libellé
+
+Trois étapes appliquées de façon incrémentale, un commit par étape.
+
+**1. Rename Variable**
+La variable `lab` (abréviation opaque) a été renommée en `lowerLabel`, qui décrit précisément ce qu'elle contient : le libellé passé en minuscules. Aucun comportement modifié.
+
+**2. Extract Function**
+Les 30 lignes de catégorisation inline ont été extraites dans `inferCategory(label)`. La boucle principale se réduit à `category = inferCategory(tx.label)`. La fonction gère elle-même le cas `label` absent et retourne toujours une chaîne valide.
+
+**3. Replace Magic String with Named Constant**
+La valeur par défaut `'autre'`, répétée deux fois dans `inferCategory`, a été extraite en constante `DEFAULT_CATEGORY = 'autre'`. Changer la catégorie par défaut ne nécessite plus de modifier plusieurs lignes.
