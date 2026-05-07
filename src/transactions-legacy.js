@@ -18,6 +18,13 @@ var RATES = {
   'EUR-GBP': 0.85,
 };
 
+function convertAmount(tx, targetCurrency) {
+  if (!tx.currency || tx.currency === targetCurrency) return tx.amount;
+  var key = tx.currency + '-' + targetCurrency;
+  var rate = RATES[key] !== undefined ? RATES[key] : 1;
+  return tx.amount * rate;
+}
+
 // fonction utilitaire (utilisée nulle part ailleurs ?)
 function fmt(d) {
   var dd = d.getDate();
@@ -40,7 +47,6 @@ export function processTransactions(txs, opts) {
   var warnings = [];
   var i, j;
   var tx;
-  var rate;
   var converted;
   var category;
   var month;
@@ -108,13 +114,7 @@ export function processTransactions(txs, opts) {
     }
 
     // conversion devise si besoin
-    if (tx.currency && tx.currency !== opts.currency) {
-      var key = tx.currency + '-' + opts.currency;
-      rate = RATES[key] !== undefined ? RATES[key] : 1;
-      converted = tx.amount * rate;
-    } else {
-      converted = tx.amount;
-    }
+    converted = convertAmount(tx, opts.currency);
 
     // catégorisation manuelle (devrait être dans la donnée mais bon...)
     if (tx.label) {
