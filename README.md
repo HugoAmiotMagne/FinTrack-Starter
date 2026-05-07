@@ -27,11 +27,11 @@ L'appli est dispo sur http://localhost:5173.
 
 ## TODO
 
-- [ ] Ajouter des tests
+- [X] Ajouter des tests
 - [X] Mettre en place un linter
 - [x] CI
 - [X] Export CSV
-- [ ] Refacto du module legacy
+- [X] Refacto du module legacy
 
 ---
 

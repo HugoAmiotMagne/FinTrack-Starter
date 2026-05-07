@@ -24,6 +24,7 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.1.0",
+    "eslint-plugin-sonarjs": "^4.0.3",
     "globals": "^15.0.0",
     "husky": "^9.1.7",
     "jest": "^30.3.0",
@@ -32,7 +33,9 @@
     "vite": "^5.4.0"
   },
   "jest": {
-    "testMatch": ["**/src/**/*.test.js"]
+    "testMatch": [
+      "**/src/**/*.test.js"
+    ]
   },
   "lint-staged": {
     "*.{js,jsx}": [
