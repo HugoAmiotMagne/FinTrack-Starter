@@ -27,6 +27,35 @@ function convertAmount(tx, targetCurrency) {
   return tx.amount * rate;
 }
 
+function inferCategory(label) {
+  if (!label) return 'autre';
+  var lowerLabel = label.toLowerCase();
+  if (lowerLabel.indexOf('loyer') >= 0 || lowerLabel.indexOf('rent') >= 0) {
+    return 'logement';
+  } else if (
+    lowerLabel.indexOf('course') >= 0 ||
+    lowerLabel.indexOf('groce') >= 0 ||
+    lowerLabel.indexOf('super') >= 0
+  ) {
+    return 'alimentation';
+  } else if (
+    lowerLabel.indexOf('essence') >= 0 ||
+    lowerLabel.indexOf('gas') >= 0 ||
+    lowerLabel.indexOf('uber') >= 0
+  ) {
+    return 'transport';
+  } else if (
+    lowerLabel.indexOf('netflix') >= 0 ||
+    lowerLabel.indexOf('spotify') >= 0 ||
+    lowerLabel.indexOf('cinema') >= 0
+  ) {
+    return 'loisirs';
+  } else if (lowerLabel.indexOf('salaire') >= 0 || lowerLabel.indexOf('salary') >= 0) {
+    return 'revenu';
+  }
+  return 'autre';
+}
+
 // fonction utilitaire (utilisée nulle part ailleurs ?)
 function fmt(d) {
   var dd = d.getDate();
@@ -119,36 +148,7 @@ export function processTransactions(txs, opts) {
     converted = convertAmount(tx, opts.currency);
 
     // catégorisation manuelle (devrait être dans la donnée mais bon...)
-    if (tx.label) {
-      var lowerLabel = tx.label.toLowerCase();
-      if (lowerLabel.indexOf('loyer') >= 0 || lowerLabel.indexOf('rent') >= 0) {
-        category = 'logement';
-      } else if (
-        lowerLabel.indexOf('course') >= 0 ||
-        lowerLabel.indexOf('groce') >= 0 ||
-        lowerLabel.indexOf('super') >= 0
-      ) {
-        category = 'alimentation';
-      } else if (
-        lowerLabel.indexOf('essence') >= 0 ||
-        lowerLabel.indexOf('gas') >= 0 ||
-        lowerLabel.indexOf('uber') >= 0
-      ) {
-        category = 'transport';
-      } else if (
-        lowerLabel.indexOf('netflix') >= 0 ||
-        lowerLabel.indexOf('spotify') >= 0 ||
-        lowerLabel.indexOf('cinema') >= 0
-      ) {
-        category = 'loisirs';
-      } else if (lowerLabel.indexOf('salaire') >= 0 || lowerLabel.indexOf('salary') >= 0) {
-        category = 'revenu';
-      } else {
-        category = 'autre';
-      }
-    } else {
-      category = 'autre';
-    }
+    category = inferCategory(tx.label);
 
     // alertes
     if (converted > threshold && tx.type === 'debit') {
