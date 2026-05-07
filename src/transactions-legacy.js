@@ -120,28 +120,28 @@ export function processTransactions(txs, opts) {
 
     // catégorisation manuelle (devrait être dans la donnée mais bon...)
     if (tx.label) {
-      var lab = tx.label.toLowerCase();
-      if (lab.indexOf('loyer') >= 0 || lab.indexOf('rent') >= 0) {
+      var lowerLabel = tx.label.toLowerCase();
+      if (lowerLabel.indexOf('loyer') >= 0 || lowerLabel.indexOf('rent') >= 0) {
         category = 'logement';
       } else if (
-        lab.indexOf('course') >= 0 ||
-        lab.indexOf('groce') >= 0 ||
-        lab.indexOf('super') >= 0
+        lowerLabel.indexOf('course') >= 0 ||
+        lowerLabel.indexOf('groce') >= 0 ||
+        lowerLabel.indexOf('super') >= 0
       ) {
         category = 'alimentation';
       } else if (
-        lab.indexOf('essence') >= 0 ||
-        lab.indexOf('gas') >= 0 ||
-        lab.indexOf('uber') >= 0
+        lowerLabel.indexOf('essence') >= 0 ||
+        lowerLabel.indexOf('gas') >= 0 ||
+        lowerLabel.indexOf('uber') >= 0
       ) {
         category = 'transport';
       } else if (
-        lab.indexOf('netflix') >= 0 ||
-        lab.indexOf('spotify') >= 0 ||
-        lab.indexOf('cinema') >= 0
+        lowerLabel.indexOf('netflix') >= 0 ||
+        lowerLabel.indexOf('spotify') >= 0 ||
+        lowerLabel.indexOf('cinema') >= 0
       ) {
         category = 'loisirs';
-      } else if (lab.indexOf('salaire') >= 0 || lab.indexOf('salary') >= 0) {
+      } else if (lowerLabel.indexOf('salaire') >= 0 || lowerLabel.indexOf('salary') >= 0) {
         category = 'revenu';
       } else {
         category = 'autre';
