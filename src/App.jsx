@@ -3,10 +3,13 @@ import { computeBalance, formatAmount, simpleInterest } from './calculator.js';
 import { exportCSV } from './export-csv.js';
 import { seedTransactions } from './seed.js';
 
+const PAGE_SIZE = 10;
+
 export default function App() {
   const [transactions, setTransactions] = useState(seedTransactions);
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState({ label: '', amount: '', type: 'debit', category: 'autre' });
+  const [page, setPage] = useState(0);
 
   const balance = useMemo(() => computeBalance(transactions), [transactions]);
   const totalDebit = useMemo(
@@ -20,6 +23,12 @@ export default function App() {
   const monthlyInterestPreview = useMemo(
     () => simpleInterest(balance > 0 ? balance : 0, 3.5, 1 / 12),
     [balance],
+  );
+
+  const pageCount = Math.ceil(transactions.length / PAGE_SIZE);
+  const visibleTransactions = useMemo(
+    () => transactions.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE),
+    [transactions, page],
   );
 
   function handleExportCSV() {
@@ -48,6 +57,7 @@ export default function App() {
     setTransactions([newTx, ...transactions]);
     setForm({ label: '', amount: '', type: 'debit', category: 'autre' });
     setShowForm(false);
+    setPage(0);
   }
 
   return (
@@ -147,9 +157,7 @@ export default function App() {
         <section className="list">
           <h2>Transactions</h2>
           <ul data-testid="transaction-list">
-            {' '}
-            {/* ajout d'une transaction */}
-            {transactions.map((tx) => (
+            {visibleTransactions.map((tx) => (
               <li key={tx.id} className="tx">
                 <span className="tx-date">{new Date(tx.date).toLocaleDateString('fr-FR')}</span>
                 <span className="tx-label">{tx.label}</span>
@@ -160,6 +168,27 @@ export default function App() {
               </li>
             ))}
           </ul>
+          {pageCount > 1 && (
+            <div className="pagination">
+              <button
+                className="btn btn-ghost"
+                onClick={() => setPage((p) => p - 1)}
+                disabled={page === 0}
+              >
+                ← Précédent
+              </button>
+              <span className="pagination-info">
+                {page + 1} / {pageCount}
+              </span>
+              <button
+                className="btn btn-ghost"
+                onClick={() => setPage((p) => p + 1)}
+                disabled={page >= pageCount - 1}
+              >
+                Suivant →
+              </button>
+            </div>
+          )}
         </section>
       </main>
 

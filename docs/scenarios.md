@@ -1,5 +1,9 @@
 # Scénarios BDD — Export CSV
 
+Ces scénarios décrivent le comportement attendu de la fonction `exportCSV` (`src/export-csv.js`). Ils servent de référence pour les tests unitaires et les tests E2E Playwright.
+
+---
+
 ## Scénario 1 : Export avec une liste vide
 
 **Étant donné** une liste de transactions vide  
