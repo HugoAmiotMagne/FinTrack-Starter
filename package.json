@@ -31,6 +31,9 @@
     "prettier": "^3.8.3",
     "vite": "^5.4.0"
   },
+  "jest": {
+    "testMatch": ["**/src/**/*.test.js"]
+  },
   "lint-staged": {
     "*.{js,jsx}": [
       "eslint --fix",
