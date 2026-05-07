@@ -36,5 +36,11 @@ export default [
       globals: { ...globals.jest },
     },
   },
+  {
+    files: ['playwright.config.js', 'tests-e2e/**/*.js'],
+    languageOptions: {
+      globals: { ...globals.node },
+    },
+  },
   prettier,
 ];

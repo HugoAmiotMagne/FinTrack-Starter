@@ -25,4 +25,4 @@ Son gros défaut : c'est assez lent et fragile. Si un bouton change de nom ou l'
 
 - Les 70 unitaires couvrent les fonctions pures de calculator.js, elle s'écrivent vite et détectent les bugs financiers précisément.
 - Les 25 intégration vérifient que le formulaire, le calcul et l'affichage se parlent bien. 
-- Les 5 E2E couvrent juste les parcours clés, créer une transaction, voir le solde parce que c'est lent et ça casse dès qu'un label change.
+- Les 5 E2E couvrent juste les parcours clés, créer une transaction, voir le solde parce que c'est lent et ça casse dès qu'un label change.  

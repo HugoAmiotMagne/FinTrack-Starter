@@ -146,7 +146,9 @@ export default function App() {
 
         <section className="list">
           <h2>Transactions</h2>
-          <ul>
+          <ul data-testid="transaction-list">
+            {' '}
+            {/* ajout d'une transaction */}
             {transactions.map((tx) => (
               <li key={tx.id} className="tx">
                 <span className="tx-date">{new Date(tx.date).toLocaleDateString('fr-FR')}</span>

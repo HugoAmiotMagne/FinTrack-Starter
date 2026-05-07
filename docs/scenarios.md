@@ -8,19 +8,19 @@
 
 ---
 
-## Scénario 2 : Filtrage par mois en cours
+## Scénario 2 : Filtrage par mois
 
-**Étant donné** une liste contenant une transaction du mois en cours (janvier 2024)  
-et une transaction du mois précédent (décembre 2023)  
+**Étant donné** une liste contenant une transaction du mois en cours 
+et une transaction du mois précédent
 **Quand** l'utilisateur exporte le CSV en janvier 2024  
 **Alors** le fichier contient uniquement la transaction de janvier 2024  
 et la transaction de décembre 2023 est absente du fichier
 
 ---
 
-## Scénario 3 : Échappement des virgules selon RFC 4180
+## Scénario 3 : Échappement des virgules RFC 4180
 
-**Étant donné** une transaction dont le libellé contient une virgule (ex : `Café, croissant`)  
+**Étant donné** une transaction dont le libellé contient une virgule (ex : `front, back`)  
 **Quand** l'utilisateur exporte le CSV  
-**Alors** le champ est entouré de guillemets doubles dans le fichier : `"Café, croissant"`  
+**Alors** le champ est entouré de guillemets doubles dans le fichier : `"front, back"`  
 et les autres champs sans virgule restent sans guillemets

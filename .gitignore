@@ -7,3 +7,9 @@ playwright-report
 test-results
 .vscode
 .claude
+
+# Playwright
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
