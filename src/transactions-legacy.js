@@ -19,6 +19,7 @@ var RATES = {
 };
 
 var DEFAULT_RATE = 1;
+var DEFAULT_CATEGORY = 'autre';
 
 function convertAmount(tx, targetCurrency) {
   if (!tx.currency || tx.currency === targetCurrency) return tx.amount;
@@ -28,7 +29,7 @@ function convertAmount(tx, targetCurrency) {
 }
 
 function inferCategory(label) {
-  if (!label) return 'autre';
+  if (!label) return DEFAULT_CATEGORY;
   var lowerLabel = label.toLowerCase();
   if (lowerLabel.indexOf('loyer') >= 0 || lowerLabel.indexOf('rent') >= 0) {
     return 'logement';
@@ -53,7 +54,7 @@ function inferCategory(label) {
   } else if (lowerLabel.indexOf('salaire') >= 0 || lowerLabel.indexOf('salary') >= 0) {
     return 'revenu';
   }
-  return 'autre';
+  return DEFAULT_CATEGORY;
 }
 
 // fonction utilitaire (utilisée nulle part ailleurs ?)
